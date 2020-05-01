@@ -10,9 +10,8 @@ class Dishdetail extends Component {
             return (
                 <li key={comment.id}>
                     <p>{comment.comment}</p>
-                    <p>-- {comment.author},
-                        &nbsp;
-                        {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: '2-digit' }).format(new Date(comment.date))}
+                    <p>-- {comment.author}, &nbsp;
+                    {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}
                     </p>
                 </li>
             )
@@ -49,13 +48,11 @@ class Dishdetail extends Component {
 
     render() {
         const dish = this.props.dish
-        if (dish == null) {
-            return (<div></div>)
-        }
+        if (dish == null) {return (<div></div>)}
         const dishItem = this.renderDish(dish)
         const commentItem = this.renderComments(dish.comments)
         return (
-            <div className='row'>
+            <div className='row container'>
                 {dishItem}
                 {commentItem}
             </div>
