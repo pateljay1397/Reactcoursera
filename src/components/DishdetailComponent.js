@@ -10,7 +10,6 @@ const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 
-
 class CommentForm extends Component {
     constructor(props) {
       super(props);
@@ -40,10 +39,7 @@ class CommentForm extends Component {
           return value;
         };
       };
-      console.log(
-        "Current State is: " + JSON.stringify(values, getCircularReplacer())
-      );
-      alert("Current State is: " + JSON.stringify(values, getCircularReplacer()));
+      this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
     }
   
     render() {
@@ -148,9 +144,7 @@ class CommentForm extends Component {
     }
   }
   
-
-
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment , dishId }) {
     if (comments == null) {
         return (<div></div>)
     }
@@ -169,7 +163,7 @@ function RenderComments({ comments }) {
             <h4> Comments </h4>
             <ul className='list-unstyled'>
                 {cmnts}
-                <CommentForm />
+                <CommentForm dishId = {dishId} addComment ={addComment} />
             </ul>
 
         </Card>
@@ -210,12 +204,11 @@ const Dishdetail = (props) => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-12 col-md-5 m-1">
                     <RenderDish dish={props.dish} />
-                </div>
-                <div className="col-12 col-md-5 m-1">
-                    <RenderComments comments={props.comments} />
-                </div>
+                    <RenderComments comments={props.comments}
+                    addComment={props.addComment}
+                    dishId={props.dish.id}
+                  />
             </div>
         </div>
     );
